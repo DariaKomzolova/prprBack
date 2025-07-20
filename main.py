@@ -112,3 +112,10 @@ def get_year(email: str, db: Session = Depends(get_db)):
     if not choice:
         raise HTTPException(status_code=404, detail="Student not found in choice table")
     return {"year": choice.year}
+
+@app.get("/deadline")
+def get_deadline(db: Session = Depends(get_db)):
+    deadline = crud.get_deadline(db)
+    if not deadline:
+        raise HTTPException(status_code=404, detail="Deadline not set")
+    return {"start": deadline.start, "end": deadline.end}
